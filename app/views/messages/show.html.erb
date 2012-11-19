@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Sender:</b>
+  <%= @message.sender_id %>
+</p>
+
+<p>
+  <b>Receiver:</b>
+  <%= @message.receiver_id %>
+</p>
+
+<p>
+  <b>Message body:</b>
+  <%= @message.message_body %>
+</p>
+
+<p>
+  <b>Message subject:</b>
+  <%= @message.message_subject %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_path(@message) %> |
+<%= link_to 'Back', messages_path %>
