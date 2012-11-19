@@ -14,4 +14,15 @@
   </tr>
 <% end %>
 </table>
+
+<%= form_for(@message) do |f| %>
+  <div class="field">
+    <%= f.label :message_body %><br />
+    <%= f.text_field :message_body %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
 </div>
