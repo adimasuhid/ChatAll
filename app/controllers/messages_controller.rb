@@ -9,14 +9,15 @@ class MessagesController < ApplicationController
     @messages = Message.all
 
     #refactor to own controller
+    #@graph = Koala::Facebook::API.new(current_user.oauth_token)
+    #@chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and '100000192703202' IN recipients limit 1)")
+
     @graph = Koala::Facebook::API.new(current_user.oauth_token)
-    #@friends = @graph.get_connections("me", "friends")
-    #@chats = @graph.fql_query("select * from inbox")
-    @chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and '100000192703202' IN recipients limit 1)"
-      )
+    @friends = @graph.get_connections("me", "friends")
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js  
       format.json { render json: @messages }
     end
   end
@@ -141,6 +142,19 @@ jabber_message.subject = message_subject
     respond_to do |format|
       format.html { redirect_to messages_url }
       format.json { head :no_content }
+    end
+  end
+
+  def chatview
+    @message = Message.new(:receiver_id => params[:receiver_id])
+
+    puts "got in"
+
+    @graph = Koala::Facebook::API.new(current_user.oauth_token)
+    @chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and #{@message.receiver_id} IN recipients)")
+
+    respond_to do | format |  
+      format.js  
     end
   end
 end

@@ -1,0 +1,17 @@
+<h1>Chat</h1>
+
+<div id="chat">
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Message</th>
+  </tr>
+
+<% @chats.each do |c| %>
+  <tr id=<%= c["author_id"] %>>
+  	 <td><%= c["author_id"] %></td>
+    <td><%= c["body"] %></td>
+  </tr>
+<% end %>
+</table>
+</div>

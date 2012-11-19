@@ -1,6 +1,8 @@
 ChatAll::Application.routes.draw do
   resources :messages
 
+  match 'messages/chatview/:receiver_id', :controller => 'messages', :action => 'chatview', :via => :get, :as => :chatview_message
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   # The priority is based upon order of creation:
@@ -50,6 +52,7 @@ ChatAll::Application.routes.draw do
   #     resources :products
   #   end
 
+  #chatview route
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => 'messages#index'

@@ -1,31 +1,44 @@
-<h1>Listing messages</h1>
+<h1>Showing Friends</h1>
 
+<div id="friends">
 <table>
   <tr>
-    <th>Sender</th>
-    <th>Receiver</th>
-    <th>Message body</th>
-    <th>Message subject</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Name</th>
   </tr>
 
-<% @messages.each do |message| %>
-  <tr>
-    <td><%= message.sender_id %></td>
-    <td><%= message.receiver_id %></td>
-    <td><%= message.message_body %></td>
-    <td><%= message.message_subject %></td>
-    <td><%= link_to 'Show', message %></td>
-    <td><%= link_to 'Edit', edit_message_path(message) %></td>
-    <td><%= link_to 'Destroy', message, confirm: 'Are you sure?', method: :delete %></td>
+<% @friends.each do |friend| %>
+  
+  <tr id=<%= friend["id"] %>>
+    <td><%= friend["name"] %></td>
   </tr>
 <% end %>
 </table>
+</div>
+
+<div id="chatview">
+</div>
 
 
-
-<br />
 
 <%= link_to 'New Message', new_message_path %>
+
+<script>
+
+
+$(document).ready(function(){
+
+  $('tr').click(function () {
+    $(this).find('td').effect("highlight", {});
+    var ID = this.id;
+    $.ajax({
+        type: 'GET',
+        url: '/messages/chatview/'+ ID,
+       });
+        
+    });
+
+});
+
+
+
+</script>
