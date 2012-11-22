@@ -64,14 +64,12 @@ receiver_id = @message.receiver_id
 sender_chat_id = "-#{current_user.uid}@chat.facebook.com"
 receiver_chat_id = "-#{receiver_id}@chat.facebook.com"
 message_body = @message.message_body
-message_subject = @message.message_subject
+message_subject = "chat with @messenger.receiver_id"
 
-
- 
 jabber_message = Jabber::Message.new(receiver_chat_id, message_body)
 jabber_message.subject = message_subject
       #chat client connect
-      
+        puts "message received"
         client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
         #client.close
         if client.is_connected?()
@@ -105,6 +103,7 @@ jabber_message.subject = message_subject
         Thread.stop
         client.close
         end
+
 
     respond_to do |format|
       if @message.save
