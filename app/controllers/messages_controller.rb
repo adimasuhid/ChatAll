@@ -91,7 +91,17 @@ jabber_message.subject = message_subject
             puts "m.type ok"
             m2 = Jabber::Message.new(m.from, "You sent: #{m.body}")
             m2.type = m.type
-            client.send(m2)
+            #client.send(m2)
+    respond_to do |format|
+      if client.send(m2)
+        format.html { redirect_to @message, notice: "Connected ! Sent message to #{sender_chat_id.strip.to_s}." }
+        format.js
+        format.json { render json: @message, status: :created, location: @message }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+    end
             if m.body == 'exit'
               m2 = Jabber::Message.new(m.from, "Exiting ...")
               m2.type = m.type
