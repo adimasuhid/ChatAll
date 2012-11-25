@@ -1,46 +1,37 @@
-<h1>Chat in create</h1>
-
 <div id="chat">
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Message</th>
-  </tr>
+<div id="scrollbar2">
+    <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+        <div class="viewport">
+            <div class="overview">
+                  <table>
 
-<% @chats.each do |c| %>
-  <tr id=<%= c["author_id"] %>>
-  	 <td><%= c["author_id"] %></td>
-    <td><%= c["body"] %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= @message.receiver_id %>
-
-<%= form_for(@message,:remote=> true) do |f| %>
-  <% if @message.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this message from being saved:</h2>
-
-      <ul>
-      <% @message.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="field">
-    <%= f.hidden_field :receiver_id, :value => @message.receiver_id%>
-  </div>
-
-  <div class="field">
-    <%= f.label :message_body %><br />
-    <%= f.text_field :message_body %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
+                  <% @chats.each do |c| %>
+                    <% if current_user.uid.to_s == c["author_id"].to_s %>
+                    <tr id="you">
+                       <td>You:<%= c["body"] %></td>
+                    </tr>
+                    <% else %>
+                    <tr id="friend">
+                       <td>Friend:<%= c["body"] %></td>
+                    </tr>
+                    <% end %>
+                  <% end %>
+                  </table>
+            </div>
+        </div>
 </div>
+</div>
+
+<script>
+
+
+$(document).ready(function(){
+
+     $('#scrollbar2').tinyscrollbar();
+     $('#scrollbar2').tinyscrollbar_update('bottom');
+
+});
+
+
+
+</script>

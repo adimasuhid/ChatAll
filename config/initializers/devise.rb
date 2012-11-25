@@ -207,7 +207,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   require "omniauth-facebook"
   #config.omniauth :facebook, '434244103306527', 'd74e401774a93b7cd2c07c7ad943308e', :scope => 'xmpp_login'
-  config.omniauth :facebook, '434244103306527', 'd74e401774a93b7cd2c07c7ad943308e', :strategy_class => OmniAuth::Strategies::Facebook, :scope => "read_mailbox,xmpp_login"
+  config.omniauth :facebook, '434244103306527', 'd74e401774a93b7cd2c07c7ad943308e', :strategy_class => OmniAuth::Strategies::Facebook, :scope => "read_mailbox,xmpp_login,friends_online_presence"
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

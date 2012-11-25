@@ -1,31 +1,31 @@
-<h1>Showing Friends</h1>
+<h1 class="inset">ChatAll</h1>
 
-<div id="friends">
-<table>
-  <tr>
-    <th>Name</th>
-  </tr>
-
-<% @friends.each do |friend| %>
-  
-  <tr id=<%= friend["id"] %>>
-    <td><%= friend["name"] %></td>
-  </tr>
-<% end %>
-</table>
+<div id="scrollbar1">
+    <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+        <div class="viewport">
+            <div class="overview">
+              <table>
+              <% @friends.each do |friend| %>
+                <tr class="<%= cycle('list_line_odd', 'list_line_even') %>" id=<%= friend["uid"] %> >
+                  <td><img height=45px; width=45px; src=<%= friend["pic_square"] %>/><%= friend["name"] %></td>
+                </tr>
+              <% end %>
+              </table>
+            </div>
+        </div>
 </div>
 
-<div id="chatview">
-</div>
-
-
-
-<%= link_to 'New Message', new_message_path %>
+          <div id="chatview">
+          </div>
 
 <script>
 
-
 $(document).ready(function(){
+
+     $('#scrollbar1').tinyscrollbar();
+
+
+     
 
   $('tr').click(function () {
     $(this).find('td').effect("highlight", {});
@@ -36,6 +36,19 @@ $(document).ready(function(){
        });
         
     });
+
+  WebFontConfig = {
+    google: { families: [ 'Lilita+One::latin' ] }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
 
 });
 

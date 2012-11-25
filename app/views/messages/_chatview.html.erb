@@ -1,21 +1,29 @@
-<h1>Chat</h1>
 
 <div id="chat">
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Message</th>
-  </tr>
+<div id="scrollbar2">
+    <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+        <div class="viewport">
+            <div class="overview">
+                  <table>
 
-<% @chats.each do |c| %>
-  <tr id=<%= c["author_id"] %>>
-  	 <td><%= c["author_id"] %></td>
-    <td><%= c["body"] %></td>
-  </tr>
-<% end %>
-</table>
+                  <% @chats.each do |c| %>
+                    <% if current_user.uid.to_s == c["author_id"].to_s %>
+                    <tr id="you">
+                    	 <td>You:<%= c["body"] %></td>
+                    </tr>
+                    <% else %>
+                    <tr id="friend">
+                       <td>Friend:<%= c["body"] %></td>
+                    </tr>
+                    <% end %>
+                  <% end %>
+                  </table>
+            </div>
+        </div>
+</div>
+</div>
 
-<%= @message.receiver_id %>
+
 
 <%= form_for @message, :remote => true do |f| %>
   <% if @message.errors.any? %>
@@ -35,12 +43,24 @@
   </div>
 
   <div class="field">
-    <%= f.label :message_body %><br />
-    <%= f.text_field :message_body %>
+    <%= f.text_field :message_body, :class => 'text_chat'%>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'SEND', :class => 'button_chat' %>
   </div>
 <% end %>
 
-</div>
+
+<script>
+
+$(document).ready(function(){
+
+     $('#scrollbar2').tinyscrollbar();
+     $('#scrollbar2').tinyscrollbar_update('bottom');
+
+
+});
+
+
+
+</script>

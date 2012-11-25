@@ -13,7 +13,8 @@ class MessagesController < ApplicationController
     #@chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and '100000192703202' IN recipients limit 1)")
 
     @graph = Koala::Facebook::API.new(current_user.oauth_token)
-    @friends = @graph.get_connections("me", "friends")
+    #@friends = @graph.get_connections("me", "friends")
+    @friends = @graph.fql_query("SELECT uid, name, pic_square, online_presence FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) AND online_presence IN ('active', 'idle') ORDER BY name")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -60,8 +61,8 @@ class MessagesController < ApplicationController
       #receiver_chat_id = "-#{@user}@chat.facebook.com"
 
 #refactor to own controller
-receiver_id = @message.receiver_id
 sender_chat_id = "-#{current_user.uid}@chat.facebook.com"
+receiver_id = @message.receiver_id
 receiver_chat_id = "-#{receiver_id}@chat.facebook.com"
 message_body = @message.message_body
 message_subject = "chat with @messenger.receiver_id"
@@ -70,8 +71,8 @@ puts "message received"
 jabber_message = Jabber::Message.new(receiver_chat_id, message_body)
 jabber_message.subject = message_subject
       #chat client connect
-        
-        client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
+      
+      client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
         #client.close
         if client.is_connected?()
           client.close
@@ -82,7 +83,8 @@ jabber_message.subject = message_subject
         client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client,
            '434244103306527', 
            current_user.oauth_token,
-           'd74e401774a93b7cd2c07c7ad943308e'), nil)
+           'd74e401774a93b7cd2c07c7ad943308e'), nil)        
+
         client.send(jabber_message)
 
         #playing with message callback for retrieving messages

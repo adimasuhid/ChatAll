@@ -1,11 +1,94 @@
-#friends {
-width:450px;
-height:150px;
-overflow:scroll;
-} 
+
+#scrollbar1 { width: 100%; clear: both; margin: 20px 0 10px; }
+#scrollbar1 .viewport { height: 200px; overflow: hidden; position: relative; }
+#scrollbar1 .overview { width: 100%; list-style: none; position: absolute; left: 0; top: 0; }
+#scrollbar1 .thumb .end,
+#scrollbar1 .thumb { background-color: #003D5D; }
+#scrollbar1 .scrollbar { position: relative; float: right; width: 15px; }
+#scrollbar1 .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+#scrollbar1 .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#scrollbar1 .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#scrollbar1 .disable{ display: none; }
+#scrollbar1 .list_line_even { width: 100%; background:   #D8EEFD; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+
+#scrollbar2 { width: 100%; clear: both; margin: 20px 0 10px; }
+#scrollbar2 .viewport { height: 150px; overflow: hidden; position: relative; }
+#scrollbar2 .overview { width: 100%; list-style: none; position: absolute; left: 0; top: 0; }
+#scrollbar2 .thumb .end,
+#scrollbar2 .thumb { background-color: #003D5D; }
+#scrollbar2 .scrollbar { position: relative; float: right; width: 15px; }
+#scrollbar2 .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; }
+#scrollbar2 .thumb { height: 20px; width: 13px; cursor: pointer; overflow: hidden; position: absolute; top: 0; }
+#scrollbar2 .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#scrollbar2 .disable{ display: none; }
+#scrollbar2 .list_line_even { width: 100%; background:   #D8EEFD; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+
 
 #chatview {
-width:450px;
-height:150px;
-overflow:scroll;
+border-top: solid; border-top-color: #003D5D;
 } 
+
+#scrollbar2 table{
+	width:100%;
+} 
+
+#scrollbar1 table{
+	width: 100%;
+}
+
+
+#you {
+	background-color: #D8EEFD;
+}
+
+.button_chat {
+	-moz-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #378de5) );
+	background:-moz-linear-gradient( center top, #79bbff 5%, #378de5 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#378de5');
+	background-color:#79bbff;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #84bbf3;
+	display:inline-block;
+	color:#ffffff;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:3px 25px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #528ecc;
+}.button_chat:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff) );
+	background:-moz-linear-gradient( center top, #378de5 5%, #79bbff 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#378de5', endColorstr='#79bbff');
+	background-color:#378de5;
+}.button_chat:active {
+	position:relative;
+	top:1px;
+}
+
+.text_chat {
+	width:75%;
+	background-color:#f0f0f0;
+	border:1px solid #dbdbdb;
+	padding:5px;
+	margin-right: 5px;
+	-webkit-border-radius:7px;
+	-moz-border-radius:7px;
+	color: #000;
+	float: left;
+
+}
+
+.inset{
+	color: #ffffff;
+	font-family: 'Lilita One', cursive;
+	text-shadow: -1px 0 #003D5D, 0 1px #003D5D, 1px 0 #003D5D, 0 -1px #003D5D;
+	font-size: 35px;
+}
