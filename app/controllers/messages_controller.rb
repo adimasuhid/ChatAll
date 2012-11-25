@@ -65,18 +65,20 @@ sender_chat_id = "-#{current_user.uid}@chat.facebook.com"
 receiver_chat_id = "-#{receiver_id}@chat.facebook.com"
 message_body = @message.message_body
 message_subject = "chat with @messenger.receiver_id"
+puts "message received"
 
 jabber_message = Jabber::Message.new(receiver_chat_id, message_body)
 jabber_message.subject = message_subject
       #chat client connect
-        puts "message received"
+        
         client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
         #client.close
         if client.is_connected?()
           client.close
-        else
+        end
         client.connect
         puts "connected"
+
         client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client,
            '434244103306527', 
            current_user.oauth_token,
@@ -85,39 +87,33 @@ jabber_message.subject = message_subject
 
         #playing with message callback for retrieving messages
         mainthread = Thread.current
+        mainthread.abort_on_exception=true
         puts "mainthread established"
-        client.add_message_callback do |m|
-          if m.type != :error
-            puts "m.type ok"
-            m2 = Jabber::Message.new(m.from, "You sent: #{m.body}")
-            m2.type = m.type
-            #client.send(m2)
-    respond_to do |format|
-      if client.send(m2)
-        format.html { redirect_to @message, notice: "Connected ! Sent message to #{sender_chat_id.strip.to_s}." }
-        format.js
-        format.json { render json: @message, status: :created, location: @message }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
-            if m.body == 'exit'
-              m2 = Jabber::Message.new(m.from, "Exiting ...")
-              m2.type = m.type
-              client.send(m2)
-              mainthread.wakeup
-            end
+          client.add_message_callback do |m|
+              if m.type != :error
+                puts "m.type ok"
+                m2 = Jabber::Message.new(m.from, "You sent: #{m.body}")
+                m2.type = m.type
+                client.send(m2)
+                  if m.body == 'exit'
+                    m2 = Jabber::Message.new(m.from, "Exiting ...")
+                    m2.type = m.type
+                    client.send(m2)
+                    mainthread.wakeup
+                  end
+              end
           end
-        end
         Thread.stop
         client.close
-        end
-
+        puts "client closed"
+        
+      @graph = Koala::Facebook::API.new(current_user.oauth_token)
+    @chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and #{@message.receiver_id} IN recipients)")
 
     respond_to do |format|
       if @message.save
         format.html { redirect_to @message, notice: "Connected ! Sent message to #{sender_chat_id.strip.to_s}." }
+        format.js 
         format.json { render json: @message, status: :created, location: @message }
       else
         format.html { render action: "new" }
