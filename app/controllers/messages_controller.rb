@@ -88,40 +88,24 @@ jabber_message.subject = message_subject
         client.send(jabber_message)
 
         #playing with message callback for retrieving messages
-        mainthread = Thread.current
-        mainthread.abort_on_exception=true
-        puts "mainthread established"
-          client.add_message_callback do |m|
-              if m.type != :error
-                puts "m.type ok"
-                m2 = Jabber::Message.new(m.from, "You sent: #{m.body}")
-                m2.type = m.type
-                client.send(m2)
-                  if m.body == 'exit'
-                    m2 = Jabber::Message.new(m.from, "Exiting ...")
-                    m2.type = m.type
-                    client.send(m2)
-                    mainthread.wakeup
-                  end
-              end
-          end
-        Thread.stop
+        #mainthread = Thread.current
+        
         client.close
         puts "client closed"
-        
-      @graph = Koala::Facebook::API.new(current_user.oauth_token)
-    @chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and #{@message.receiver_id} IN recipients)")
-
-    respond_to do |format|
-      if @message.save
-        format.html { redirect_to @message, notice: "Connected ! Sent message to #{sender_chat_id.strip.to_s}." }
-        format.js 
-        format.json { render json: @message, status: :created, location: @message }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @message.errors, status: :unprocessable_entity }
-      end
-    end
+                      @graph = Koala::Facebook::API.new(current_user.oauth_token)
+                      @chats = @graph.fql_query("SELECT author_id,message_id,body FROM message WHERE thread_id in (SELECT thread_id FROM thread WHERE folder_id = 0 and #{@message.receiver_id} IN recipients)")
+                     
+                       respond_to do |format|
+                        if @message.save
+                          format.html { redirect_to @message, notice: "Connected ! Sent message to #{sender_chat_id.strip.to_s}." }
+                          format.js 
+                          format.json { render json: @message, status: :created, location: @message }
+                        else
+                          format.html { render action: "new" }
+                          format.json { render json: @message.errors, status: :unprocessable_entity }
+                        end
+                      end
+ 
   end
 
   # PUT /messages/1
@@ -162,6 +146,7 @@ jabber_message.subject = message_subject
 
     respond_to do | format |  
       format.js  
+      format.html {render partial: "create"}
     end
   end
 end

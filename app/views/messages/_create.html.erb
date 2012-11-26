@@ -1,4 +1,4 @@
-<div id="chat">
+<div .class="dynamic" id="chat">
 <div id="scrollbar2">
     <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
         <div class="viewport">
@@ -29,6 +29,11 @@ $(document).ready(function(){
 
      $('#scrollbar2').tinyscrollbar();
      $('#scrollbar2').tinyscrollbar_update('bottom');
+    
+          setInterval(function() {
+            $('.dynamic').load('/messages/chatview/100000182024371');
+        }, 10000);
+  
 
 });
 
