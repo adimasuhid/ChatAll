@@ -57,10 +57,13 @@ $(document).ready(function(){
 
      $('#scrollbar2').tinyscrollbar();
      $('#scrollbar2').tinyscrollbar_update('bottom');
+        var myVar = setInterval(
+            function() {
+            $('.dynamic').load("/messages/chatview/"+ <%= @message.receiver_id %>);
+        }
+        , 3000);
 
-          setInterval(function() {
-            $('.dynamic').load('/messages/chatview/100000182024371');
-        }, 3000);
+
 });
 
 

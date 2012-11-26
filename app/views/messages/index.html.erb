@@ -24,8 +24,12 @@ $(document).ready(function(){
 
      $('#scrollbar1').tinyscrollbar();
 
-
-     
+  $('tr').click(
+    function clearLastInterval () {
+  var i = setInterval (function () {}, 10000);
+  clearInterval (i-1);
+  clearInterval (i);
+  });     
 
   $('tr').click(function () {
     $(this).find('td').effect("highlight", {});
@@ -33,9 +37,10 @@ $(document).ready(function(){
     $.ajax({
         type: 'GET',
         url: '/messages/chatview/'+ ID,
-       });
-        
+       });  
     });
+
+
 
   WebFontConfig = {
     google: { families: [ 'Lilita+One::latin' ] }
@@ -49,6 +54,8 @@ $(document).ready(function(){
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
   })();
+
+
 
 });
 

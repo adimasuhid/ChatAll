@@ -61,7 +61,7 @@ class MessagesController < ApplicationController
       #receiver_chat_id = "-#{@user}@chat.facebook.com"
 
 #refactor to own controller
-sender_chat_id = "-#{current_user.uid}@chat.facebook.com"
+
 receiver_id = @message.receiver_id
 receiver_chat_id = "-#{receiver_id}@chat.facebook.com"
 message_body = @message.message_body
@@ -71,25 +71,9 @@ puts "message received"
 jabber_message = Jabber::Message.new(receiver_chat_id, message_body)
 jabber_message.subject = message_subject
       #chat client connect
-      
-      client = Jabber::Client.new(Jabber::JID.new(sender_chat_id))
-        #client.close
-        if client.is_connected?()
-          client.close
-        end
-        client.connect
-        puts "connected"
-
-        client.auth_sasl(Jabber::SASL::XFacebookPlatform.new(client,
-           '434244103306527', 
-           current_user.oauth_token,
-           'd74e401774a93b7cd2c07c7ad943308e'), nil)        
-
+        puts "@client"
+        client = Message.connect(current_user)
         client.send(jabber_message)
-
-        #playing with message callback for retrieving messages
-        #mainthread = Thread.current
-        
         client.close
         puts "client closed"
                       @graph = Koala::Facebook::API.new(current_user.oauth_token)
